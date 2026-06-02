@@ -2,6 +2,7 @@ import { use, useEffect, useState } from "react"
 import "./App.css"
 import {
   changeToldStatus,
+  deleteJoke,
   getAllJokes,
   postNewJoke,
 } from "./services/jokeService.js"
@@ -13,26 +14,24 @@ export const App = () => {
   const [untoldJokes, setUntoldJokes] = useState([])
   const [toldJokes, setToldJokes] = useState([])
 
-  
   useEffect(() => {
     getAllJokes().then((jokeArray) => {
       setAllJokes(jokeArray)
     })
   }, [])
-  
+
   useEffect(() => {
     setUntoldJokes(allJokes.filter((joke) => joke.told === false))
     setToldJokes(allJokes.filter((joke) => joke.told === true))
-    console.log(`sort finished`,allJokes)
+    console.log(`sort finished`, allJokes)
   }, [allJokes])
-  
+
   const getUpdatedJokes = () => {
     getAllJokes().then((jokeArray) => {
       setAllJokes(jokeArray)
-      console.log(`get  all finished`,jokeArray)
+      console.log(`get  all finished`, jokeArray)
     })
   }
-
 
   return (
     <div className="app-container">
@@ -62,7 +61,6 @@ export const App = () => {
           onClick={() => {
             postNewJoke(newJoke).then(getUpdatedJokes)
             setNewJoke("")
-            
           }}
           className="joke-input-submit"
         >
@@ -82,11 +80,20 @@ export const App = () => {
                 return (
                   <li className="joke-list-item" key={joke.id}>
                     <p className="joke-list-item-text">{joke.text}</p>
+                    <div className="joke-list-action-delete">
+                      <button
+                        onClick={() => {
+                          deleteJoke(joke).then(getUpdatedJokes)
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+
                     <div className="joke-list-action-toggle">
                       <button
                         onClick={() => {
                           changeToldStatus(joke).then(getUpdatedJokes)
-                        
                         }}
                       >
                         😆
@@ -110,11 +117,19 @@ export const App = () => {
                 return (
                   <li className="joke-list-item" key={joke.id}>
                     <p className="joke-list-item-text">{joke.text}</p>
+                    <div className="joke-list-action-delete">
+                      <button
+                        onClick={() => {
+                          deleteJoke(joke).then(getUpdatedJokes)
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
                     <div className="joke-list-action-toggle">
                       <button
                         onClick={() => {
                           changeToldStatus(joke).then(getUpdatedJokes)
-                          
                         }}
                       >
                         😐

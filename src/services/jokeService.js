@@ -20,20 +20,34 @@ export const postNewJoke = (newJoke) => {
   }
 }
 
-export const changeToldStatus = (clickedJoke) =>{
-        const putOption = {
-            method: "put",
-            headers:{
-                "content-type": "application/json",
-            },
-            body: JSON.stringify({
-                id:clickedJoke.id,
-                text: clickedJoke.text,
-                told:!clickedJoke.told,
-            })
-        }
-        return fetch(`http://localhost:8088/jokes/${clickedJoke.id}`,putOption)
+//Changes Told status of Joke
+export const changeToldStatus = (clickedJoke) => {
+  const putOption = {
+    method: "put",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      id: clickedJoke.id,
+      text: clickedJoke.text,
+      told: !clickedJoke.told,
+    }),
+  }
+  return fetch(`http://localhost:8088/jokes/${clickedJoke.id}`, putOption)
 }
+
+
+//Deletes Joke
+export const deleteJoke = (clickedJoke) => {
+  const deleteRequest = {
+    method: "Delete",
+    headers: {
+      "content-type": "application/json",
+    },
+  }
+  return fetch(`http://localhost:8088/jokes/${clickedJoke.id}`, deleteRequest)
+}
+
 
 
 // Fetch for all jokes
