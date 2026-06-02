@@ -23,13 +23,13 @@ export const App = () => {
   useEffect(() => {
     setUntoldJokes(allJokes.filter((joke) => joke.told === false))
     setToldJokes(allJokes.filter((joke) => joke.told === true))
-    console.log(`filter finished`,allJokes)
+    console.log(`sort finished`,allJokes)
   }, [allJokes])
   
   const getUpdatedJokes = () => {
     getAllJokes().then((jokeArray) => {
       setAllJokes(jokeArray)
-      console.log(`get finished`,jokeArray)
+      console.log(`get  all finished`,jokeArray)
     })
   }
 
@@ -60,9 +60,9 @@ export const App = () => {
         />
         <button
           onClick={() => {
-            postNewJoke(newJoke)
+            postNewJoke(newJoke).then(getUpdatedJokes)
             setNewJoke("")
-            getUpdatedJokes()
+            
           }}
           className="joke-input-submit"
         >
@@ -85,8 +85,8 @@ export const App = () => {
                     <div className="joke-list-action-toggle">
                       <button
                         onClick={() => {
-                          changeToldStatus(joke)
-                          getUpdatedJokes()
+                          changeToldStatus(joke).then(getUpdatedJokes)
+                        
                         }}
                       >
                         😆
@@ -113,8 +113,8 @@ export const App = () => {
                     <div className="joke-list-action-toggle">
                       <button
                         onClick={() => {
-                          changeToldStatus(joke)
-                          getUpdatedJokes()
+                          changeToldStatus(joke).then(getUpdatedJokes)
+                          
                         }}
                       >
                         😐

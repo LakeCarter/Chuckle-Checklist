@@ -16,12 +16,11 @@ export const postNewJoke = (newJoke) => {
     }
 
     //posts to database
-    fetch(`http://localhost:8088/jokes`, postOptions)
+    return fetch(`http://localhost:8088/jokes`, postOptions)
   }
 }
 
 export const changeToldStatus = (clickedJoke) =>{
-    if(clickedJoke.told === true){
         const putOption = {
             method: "put",
             headers:{
@@ -30,26 +29,10 @@ export const changeToldStatus = (clickedJoke) =>{
             body: JSON.stringify({
                 id:clickedJoke.id,
                 text: clickedJoke.text,
-                told:false,
+                told:!clickedJoke.told,
             })
         }
-        fetch(`http://localhost:8088/jokes/${clickedJoke.id}`,putOption)
-    }
-    else{
-        const putOption = {
-            method: "put",
-            headers:{
-                "content-type": "application/json",
-            },
-            body: JSON.stringify({
-                id:clickedJoke.id,
-                text: clickedJoke.text,
-                told:true,
-            })
-        }
-        fetch(`http://localhost:8088/jokes/${clickedJoke.id}`,putOption)
-    }
-    console.log(`put finsihed`)
+        return fetch(`http://localhost:8088/jokes/${clickedJoke.id}`,putOption)
 }
 
 
