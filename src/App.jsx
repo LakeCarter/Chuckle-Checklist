@@ -7,6 +7,7 @@ import {
   postNewJoke,
 } from "./services/jokeService.js"
 import stevePic from "./assets/steve.png"
+import { Joke } from "./components/Jokes.jsx"
 
 export const App = () => {
   const [newJoke, setNewJoke] = useState("")
@@ -23,13 +24,11 @@ export const App = () => {
   useEffect(() => {
     setUntoldJokes(allJokes.filter((joke) => joke.told === false))
     setToldJokes(allJokes.filter((joke) => joke.told === true))
-    console.log(`sort finished`, allJokes)
   }, [allJokes])
 
   const getUpdatedJokes = () => {
     getAllJokes().then((jokeArray) => {
       setAllJokes(jokeArray)
-      console.log(`get  all finished`, jokeArray)
     })
   }
 
@@ -67,6 +66,8 @@ export const App = () => {
           Add
         </button>
       </div>
+
+    {/* Joke List Start */}
       <div className="joke-lists-container">
         <div className="joke-list-container">
           <header>
@@ -78,28 +79,13 @@ export const App = () => {
             <ul>
               {untoldJokes.map((joke) => {
                 return (
-                  <li className="joke-list-item" key={joke.id}>
-                    <p className="joke-list-item-text">{joke.text}</p>
-                    <div className="joke-list-action-delete">
-                      <button
-                        onClick={() => {
-                          deleteJoke(joke).then(getUpdatedJokes)
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
-
-                    <div className="joke-list-action-toggle">
-                      <button
-                        onClick={() => {
-                          changeToldStatus(joke).then(getUpdatedJokes)
-                        }}
-                      >
-                        😆
-                      </button>
-                    </div>
-                  </li>
+                  <Joke 
+                  joke={joke} 
+                  deleteJoke={deleteJoke}
+                  changeToldStatus={changeToldStatus}
+                  getUpdatedJokes={getUpdatedJokes}
+                  key={joke.id}
+                  />
                 )
               })}
             </ul>
@@ -115,33 +101,20 @@ export const App = () => {
             <ul>
               {toldJokes.map((joke) => {
                 return (
-                  <li className="joke-list-item" key={joke.id}>
-                    <p className="joke-list-item-text">{joke.text}</p>
-                    <div className="joke-list-action-delete">
-                      <button
-                        onClick={() => {
-                          deleteJoke(joke).then(getUpdatedJokes)
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                    <div className="joke-list-action-toggle">
-                      <button
-                        onClick={() => {
-                          changeToldStatus(joke).then(getUpdatedJokes)
-                        }}
-                      >
-                        😐
-                      </button>
-                    </div>
-                  </li>
+                  <Joke 
+                  joke={joke} 
+                  deleteJoke={deleteJoke}
+                  changeToldStatus={changeToldStatus}
+                  getUpdatedJokes={getUpdatedJokes}
+                  key={joke.id}
+                  />
                 )
               })}
             </ul>
           </div>
         </div>
       </div>
+      {/* Joke List End */}
     </div>
   )
 }
